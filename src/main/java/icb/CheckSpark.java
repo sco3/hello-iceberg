@@ -2,6 +2,9 @@ package icb;
 
 import org.apache.spark.sql.SparkSession;
 import org.apache.iceberg.spark.extensions.IcebergSparkSessionExtensions;
+
+import static java.lang.System.out;
+
 import org.apache.iceberg.spark.SparkCatalog;
 
 public class CheckSpark {
@@ -17,8 +20,25 @@ public class CheckSpark {
 
 		spark.sparkContext().setLogLevel("ERROR");
 
-		System.out.println("Spark version: " + spark.version());
-		System.out.println("Catalogs: " + spark.catalog().listCatalogs().collectAsList());
+		out.println("Spark version: " + spark.version());
+		out.println("Catalogs: " + spark.catalog().listCatalogs().collectAsList());
+
+		// 1. Create a table using SQL
+		var result = spark.sql("""
+				CREATE TABLE IF NOT EXISTS
+				local.db.users (
+				   id bigint,
+				   name string,
+				   signup_date date
+				)
+				USING iceberg
+				""" //
+		);
+		out.println("Create result:" + result);
+
+		boolean tabExists = spark.catalog().tableExists("local.db.users");
+
+		out.println("Exists: " + tabExists);
 
 		spark.stop();
 	}

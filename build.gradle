@@ -1,6 +1,5 @@
 plugins {
     id 'java'
-    id 'application'
     id 'eclipse'
 }
 
@@ -27,12 +26,8 @@ dependencies {
     implementation "org.apache.iceberg:iceberg-spark-runtime-${sparkMinorVersion}_${scalaBinaryVersion(sparkVersion)}:${icebergVersion}"
 }
 
-application {
-    mainClass = 'icb.CheckSpark'
-}
-
 jar {
     manifest {
-        attributes 'Main-Class': application.mainClass
+        attributes 'Main-Class': 'icb.CheckSpark'  // Прямое указание
     }
 }
