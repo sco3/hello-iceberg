@@ -1,5 +1,5 @@
 services:
-  # Наш S3-совместимый сторадж (замена AWS S3 для локальных тестов)
+  # Our S3-compatible storage (replaces AWS S3 for local testing)
   minio:
     image: minio/minio
     container_name: minio
