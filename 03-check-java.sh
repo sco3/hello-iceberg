@@ -4,5 +4,5 @@ docker exec spark bash -x -c "
       --add-opens java.base/sun.nio.ch=ALL-UNNAMED \
       --add-opens java.base/java.nio=ALL-UNNAMED \
       -Dlog4j.configurationFile=log4j2.properties \
-      -cp \"/opt/spark/jars/*\" src/main/java/icb/CheckSpark.java
+      -cp \"/opt/spark/jars/*:build/libs/*\" icb.CheckSpark
    "
