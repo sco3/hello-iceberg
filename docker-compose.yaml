@@ -32,3 +32,4 @@ services:
       - rest
     volumes:
       - .:/home/iceberg/local
+      - ./warehouse:/home/iceberg/warehouse

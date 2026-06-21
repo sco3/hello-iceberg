@@ -1,5 +1,7 @@
 package icb;
 
+import org.apache.spark.sql.Dataset;
+import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
 import org.apache.iceberg.spark.extensions.IcebergSparkSessionExtensions;
 
@@ -39,6 +41,14 @@ public class CheckSpark {
 		boolean tabExists = spark.catalog().tableExists("local.db.users");
 
 		out.println("Exists: " + tabExists);
+
+		Dataset<Row> tabDesc = spark.sql("DESCRIBE EXTENDED local.db.users");
+		tabDesc.filter("col_name = 'Location'").collectAsList().forEach(r -> {
+			out.println("Property: " + r.getAs("col_name"));
+			out.println("Value: " + r.getAs("data_type"));
+		});
+
+		out.println("Description: " + tabDesc);
 
 		// 2. Insert some data
 		result = spark.sql("""
