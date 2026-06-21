@@ -1,3 +1,5 @@
+package icb;
+
 import org.apache.spark.sql.SparkSession;
 import org.apache.iceberg.spark.extensions.IcebergSparkSessionExtensions;
 import org.apache.iceberg.spark.SparkCatalog;
