@@ -25,6 +25,9 @@ public class CheckSpark {
 		out.println("Spark version: " + spark.version());
 		out.println("Catalogs: " + spark.catalog().listCatalogs().collectAsList());
 
+		spark.sql("SHOW catalogs").show();
+		spark.sql("SHOW NAMESPACES IN local").show();
+
 		// 1. Create a table using SQL
 		var result = spark.sql("""
 				CREATE TABLE IF NOT EXISTS
@@ -48,8 +51,6 @@ public class CheckSpark {
 			out.println("Value: " + r.getAs("data_type"));
 		});
 
-		out.println("Description: " + tabDesc);
-
 		// 2. Insert some data
 		result = spark.sql("""
 				INSERT INTO local.db.users
@@ -60,6 +61,22 @@ public class CheckSpark {
 		);
 
 		out.println("Insert result:" + result);
+		spark.sql("""
+						ALTER TABLE local.db.users
+						CREATE TAG if not exists V1
+						RETAIN 365 DAYS
+				"""//
+		);
+		spark.sql("SELECT * FROM local.db.users").show();
+
+		spark.sql("delete from local.db.users");
+
+		spark.sql("SELECT * FROM local.db.users").show();
+
+		spark.sql("""
+				select * from local.db.users version as of 'V1'
+				"""//
+		).show();
 
 		spark.stop();
 	}
