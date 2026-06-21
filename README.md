@@ -49,3 +49,51 @@ warehouse/db/users/data/00001-7-5d913a44-a719-4c8a-9d4a-fa374acc1fe5-0-00001.par
 warehouse/db/users/data/.00001-7-5d913a44-a719-4c8a-9d4a-fa374acc1fe5-0-00001.parquet.crc
 
 ```
+
+### Test insert - tag - delete - select tag
+
+```
+
+Spark version: 3.5.5
+Catalogs: [Catalog[name='spark_catalog', ]]
++-------------+
+|      catalog|
++-------------+
+|spark_catalog|
++-------------+
+
++---------+
+|namespace|
++---------+
+|       db|
++---------+
+
+Create result:[]
+Exists: true
+Property: Location
+Value: /home/iceberg/warehouse/db/users
+Insert result:[]
++---+-----+-----------+
+| id| name|signup_date|
++---+-----+-----------+
+|  1|Alice| 2026-06-21|
+|  2|  Bob| 2026-06-21|
++---+-----+-----------+
+
++---+----+-----------+
+| id|name|signup_date|
++---+----+-----------+
++---+----+-----------+
+
++---+-----+-----------+
+| id| name|signup_date|
++---+-----+-----------+
+|  1|Alice| 2026-06-21|
+|  2|  Bob| 2026-06-21|
+|  1|Alice| 2026-06-21|
+|  2|  Bob| 2026-06-21|
+|  1|Alice| 2026-06-21|
+|  2|  Bob| 2026-06-21|
++---+-----+-----------+
+
+```
