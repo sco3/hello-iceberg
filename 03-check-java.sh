@@ -1,3 +1,4 @@
+gradle build 
 docker exec spark bash -x -c "
    cd /home/iceberg/local && 
    java \

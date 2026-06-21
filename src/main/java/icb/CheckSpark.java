@@ -40,6 +40,17 @@ public class CheckSpark {
 
 		out.println("Exists: " + tabExists);
 
+		// 2. Insert some data
+		result = spark.sql("""
+				INSERT INTO local.db.users
+				VALUES
+				   (1, 'Alice', now()),
+				   (2, 'Bob', now())
+				""" //
+		);
+
+		out.println("Insert result:" + result);
+
 		spark.stop();
 	}
 }
