@@ -12,6 +12,10 @@ repositories {
     mavenCentral()
 }
 
+def scalaBinaryVersion(String sparkVersion) {
+    return sparkVersion.startsWith('3.') ? '2.12' : '2.13'
+}
+
 def sparkVersion = '3.5.5'
 def sparkMinorVersion = sparkVersion.split('\\.')[0..1].join('.')
 def icebergVersion = '1.11.0'
@@ -26,28 +30,8 @@ application {
     mainClass = 'icb.CheckSpark'
 }
 
-def scalaBinaryVersion(String sparkVersion) {
-    return sparkVersion.startsWith('3.') ? '2.12' : '2.13'
-}
-
 jar {
     manifest {
         attributes 'Main-Class': application.mainClass
     }
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-    from {
-        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
-    }
-}
-
-task fatJar(type: Jar) {
-    archiveClassifier = 'all'
-    manifest {
-        attributes 'Main-Class': application.mainClass
-    }
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-    from {
-        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
-    }
-    with jar
 }
