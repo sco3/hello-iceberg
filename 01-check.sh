@@ -1,0 +1,1 @@
+docker exec spark spark-submit /home/iceberg/local/01-check.py

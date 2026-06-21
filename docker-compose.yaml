@@ -2,6 +2,7 @@ services:
   # Наш S3-совместимый сторадж (замена AWS S3 для локальных тестов)
   minio:
     image: minio/minio
+    container_name: minio
     ports:
       - "9000:9000"
       - "9001:9001"
@@ -12,12 +13,14 @@ services:
 
   rest:
     image: tabulario/iceberg-rest:latest
+    container_name: rest
     environment:
       - CATALOG_WAREHOUSE=/home/iceberg/warehouse
 
   # Spark with Iceberg
   spark:
     image: tabulario/spark-iceberg:latest
+    container_name: spark
     ports:
       - "8888:8888" # Jupyter Notebook
     environment:
