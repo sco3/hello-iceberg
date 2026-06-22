@@ -70,21 +70,28 @@ Catalogs: [Catalog[name='spark_catalog', ]]
 
 Create result:[]
 Exists: true
-Property: Location
-Value: /home/iceberg/warehouse/db/users
++--------+--------------------------------+-------+
+|col_name|                       data_type|comment|
++--------+--------------------------------+-------+
+|Location|/home/iceberg/warehouse/db/users|       |
++--------+--------------------------------+-------+
+
 Insert result:[]
+Select after insert
 +---+-----+-----------+
 | id| name|signup_date|
 +---+-----+-----------+
-|  1|Alice| 2026-06-21|
-|  2|  Bob| 2026-06-21|
+|  1|Alice| 2026-06-22|
+|  2|  Bob| 2026-06-22|
 +---+-----+-----------+
 
+Select after delete
 +---+----+-----------+
 | id|name|signup_date|
 +---+----+-----------+
 +---+----+-----------+
 
+Select version V1
 +---+-----+-----------+
 | id| name|signup_date|
 +---+-----+-----------+

@@ -45,11 +45,10 @@ public class CheckSpark {
 
 		out.println("Exists: " + tabExists);
 
-		Dataset<Row> tabDesc = spark.sql("DESCRIBE EXTENDED local.db.users");
-		tabDesc.filter("col_name = 'Location'").collectAsList().forEach(r -> {
-			out.println("Property: " + r.getAs("col_name"));
-			out.println("Value: " + r.getAs("data_type"));
-		});
+		spark //
+				.sql("DESCRIBE EXTENDED local.db.users") //
+				.filter("col_name = 'Location'") //
+				.show(1, 60, false);
 
 		// 2. Insert some data
 		result = spark.sql("""
@@ -67,12 +66,16 @@ public class CheckSpark {
 						RETAIN 365 DAYS
 				"""//
 		);
+
+		out.println("Select after insert");
 		spark.sql("SELECT * FROM local.db.users").show();
 
 		spark.sql("delete from local.db.users");
 
+		out.println("Select after delete");
 		spark.sql("SELECT * FROM local.db.users").show();
 
+		out.println("Select version V1");
 		spark.sql("""
 				select * from local.db.users version as of 'V1'
 				"""//
