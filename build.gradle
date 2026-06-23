@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'eclipse'
+    id 'application'
 }
 
 group = 'icb'
@@ -24,10 +25,33 @@ dependencies {
     implementation "org.apache.spark:spark-core_${scalaBinaryVersion(sparkVersion)}:${sparkVersion}"
     implementation "org.apache.spark:spark-sql_${scalaBinaryVersion(sparkVersion)}:${sparkVersion}"
     implementation "org.apache.iceberg:iceberg-spark-runtime-${sparkMinorVersion}_${scalaBinaryVersion(sparkVersion)}:${icebergVersion}"
+    implementation 'org.apache.hadoop:hadoop-aws:3.5.0'
+    implementation 'com.amazonaws:aws-java-sdk-bundle:1.12.797'
 }
 
 jar {
     manifest {
         attributes 'Main-Class': 'icb.CheckSpark'  // Прямое указание
     }
+}
+
+distZip {
+   enabled = false 
+}
+distTar {
+   enabled = false
+}
+
+installDist {
+   enabled = false
+}
+
+
+application {
+    mainClass = 'icb.CheckSpark'
+
+    applicationDefaultJvmArgs = [
+        '--add-opens=java.base/sun.nio.ch=ALL-UNNAMED',
+        '--add-opens=java.base/java.nio=ALL-UNNAMED'
+    ]
 }
